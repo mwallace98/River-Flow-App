@@ -1,22 +1,68 @@
-import logo from './logo.svg';
+
 import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+
+  const [rivers,setRivers] =useState([])
+  const [search,setSearch] = useState('')
+  const URL = "https://api.water.noaa.gov/nwps/v1/gauges"
+
+  useEffect(() => {
+    fetchRiverData()
+  },[])
+
+  const fetchRiverData = async () => {
+    try {
+      const response = await axios.get(URL); 
+      if (response.data?.gauges) {
+        const massRivers = response.data.gauges.filter(
+          gauge => gauge.state?.abbreviation === 'MA'
+        );
+        setRivers(massRivers);
+        console.log(massRivers, 'Filtered Rivers');
+      }
+    } catch (error) {
+      console.error("Error fetching river data:", error);
+    }
+  };
+
+  const filteredRivers = rivers.filter(river => 
+    river.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+
+  console.log(rivers,'rivers outside')
+  
+  const listRivers = (
+    <div className="river-container">
+      {filteredRivers.map(river => (
+        <div key={river.lid} className="river-card">
+          <h3>{river.name}</h3>
+          <h4>Current Flow: {river.status?.observed?.primary || 'N/A'} FT</h4>
+        </div>
+      ))}
+    </div>
+  );
+
+  
+
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <input
+          type='text'
+          placeholder='Search for a river'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className='search-input'
         >
-          Learn React
-        </a>
+        </input>
+        <p>
+          {listRivers} 
+        </p>
       </header>
     </div>
   );
