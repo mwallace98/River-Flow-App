@@ -33,7 +33,9 @@ function App() {
   );
 
 
-  console.log(rivers,'rivers outside')
+
+
+  console.log(rivers,'rivers State outside')
   
   const listRivers = (
     <div className="river-container">
@@ -52,6 +54,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+  
         <input
           type='text'
           placeholder='Search for a river'
@@ -60,9 +63,10 @@ function App() {
           className='search-input'
         >
         </input>
-        <p>
+        
+        <h3>
           {listRivers} 
-        </p>
+        </h3>
       </header>
     </div>
   );
