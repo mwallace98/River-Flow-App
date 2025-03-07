@@ -43,7 +43,8 @@ function App() {
       {filteredRivers.map(river => (
         <div key={river.lid} className="river-card">
           <h3>{river.name}</h3>
-          <h4>Current Flow: {river.status?.observed?.primary || 'N/A'} FT</h4>
+          <h4>Current Flow: {river.status?.observed?.primary || 'N/A'} Cfps</h4>
+          <h4>Flooded? {river.status.observed.floodCategory}</h4>
         </div>
       ))}
     </div>
