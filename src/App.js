@@ -1,11 +1,11 @@
 
 import './App.css';
-
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
-
+  <SpeedInsights />
   const [rivers,setRivers] =useState([])
   const [search,setSearch] = useState('')
   const URL = "https://api.water.noaa.gov/nwps/v1/gauges"
@@ -22,7 +22,6 @@ function App() {
           gauge => gauge.state?.abbreviation === 'MA'
         );
         setRivers(massRivers);
-        console.log(massRivers, 'Filtered Rivers');
       }
     } catch (error) {
       console.error("Error fetching river data:", error);
@@ -35,8 +34,6 @@ function App() {
 
 
 
-
-  console.log(rivers,'rivers State outside')
   
   const listRivers = (
     <div className="river-container">
